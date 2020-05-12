@@ -58,3 +58,7 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Wwise & Library Folder gitignore (and all .meta files)
+WAG_No_Sound/Assets/Wwise
+WAG_No_Sound/Library
+*.meta
