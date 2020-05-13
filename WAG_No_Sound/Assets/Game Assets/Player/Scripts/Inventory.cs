@@ -78,6 +78,8 @@ public class Inventory : MonoBehaviour
     private Image MarkerImage_Row3;
     #endregion
 
+    
+
     private void OnDestroy()
     {
         InputManager.OnInventoryDown -= OpenInventory;

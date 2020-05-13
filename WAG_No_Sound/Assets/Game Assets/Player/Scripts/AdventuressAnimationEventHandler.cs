@@ -22,6 +22,7 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
     private GameObject runParticles;
 
     public AudioSource footstepsSounds;
+    public AudioSource attackSound;
 
     private PlayerFoot foot_L;
     private PlayerFoot foot_R;
@@ -144,6 +145,7 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
     public void Weapon_SwingEvent()
     {
         // PLAY SOUND
+        attackSound.Play();
         Weapon W = PlayerManager.Instance.equippedWeaponInfo;
         W.WeaponTypeSwitch.SetValue(PlayerManager.Instance.weaponSlot);
         Swing.Post(PlayerManager.Instance.weaponSlot);
@@ -188,6 +190,7 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
 
     public void WeaponSound()
     {
+        attackSound.Play();
         Weapon EquippedWeapon = PlayerManager.Instance.equippedWeaponInfo;
         EquippedWeapon.WeaponImpact.Post(EquippedWeapon.transform.parent.gameObject);
     }
