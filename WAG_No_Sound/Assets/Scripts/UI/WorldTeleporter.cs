@@ -27,6 +27,8 @@ public class WorldTeleporter : MonoBehaviour
     public GameObject teleportParticles;
     public UnityEvent OnTeleport;
 
+    public AudioSource teleportSound;
+
     private UnityAction<int> teleport;
 
     private void Awake()
@@ -77,6 +79,7 @@ public class WorldTeleporter : MonoBehaviour
 
         if (dropdown.value != 0)
         {
+            teleportSound.Play();
             PlayerManager.Instance.player.transform.position = destinations[dropdown.value - 1].transform.position;
             TeleportSelectSound.Post(PlayerManager.Instance.player);
             dropdown.value = 0;
