@@ -40,7 +40,6 @@ public class Weapon : MonoBehaviour, IInteractable
     public float animationSpeedMultiplier = 1;
     public float knockbackStrength = 1f;
     public bool PickupEventOnPickup = true;
-    public AudioSource hitCrateSound;
 
     [Header("Combo Info")]
     public float comboCompletionBonusDamage = 0;
@@ -237,7 +236,6 @@ public class Weapon : MonoBehaviour, IInteractable
         //WeaponTypeSwitch.SetValue(transform.parent.gameObject); // Weapon Type
         alreadyHitObjects.Add(HitObj);
         WeaponImpact.Post(transform.parent.gameObject);
-        hitCrateSound.Play();
 
     }
 
