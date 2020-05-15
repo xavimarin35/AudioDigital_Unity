@@ -23,6 +23,7 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
 
     public AudioSource footstepsSounds;
     public AudioSource attackSound;
+    public AudioSource pickup;
 
     private PlayerFoot foot_L;
     private PlayerFoot foot_R;
@@ -183,6 +184,7 @@ public class AdventuressAnimationEventHandler : MonoBehaviour
 
     public void PickUpItem()
     {
+        pickup.Play();
         PlayerManager.Instance.PickUpEvent();
         GetItem.Post(this.gameObject);
         GetItemStinger.Post(GameManager.Instance.MusicGameObject);

@@ -26,6 +26,9 @@ public class WwizardAI : Creature
     public NavMeshAgent navMeshAgent;
     public NavMeshObstacle navMeshObstacle;
 
+    public AudioSource poof;
+    public AudioSource charge;
+
     #region private variables
     //Cached animator hashes
     private readonly int questChargeHash = Animator.StringToHash("Quest_Charge");
@@ -57,6 +60,7 @@ public class WwizardAI : Creature
     {
         if (Gimmick1PoofParticles != null && Gimmick1PoofTransform != null)
         {
+            poof.Play();
             GameObject p = Instantiate(Gimmick1PoofParticles, Gimmick1PoofTransform.transform.position + Gimmick1Displacement, Quaternion.identity) as GameObject;
             PoofGimmickSound.Post(p);
             Destroy(p, 5f);
@@ -96,6 +100,7 @@ public class WwizardAI : Creature
 
     public void PlayStaffSound()
     {
+        charge.Play();
         matChecker.CheckMaterial(gameObject);
         StaffHitGroundSound.Post(gameObject);
     }

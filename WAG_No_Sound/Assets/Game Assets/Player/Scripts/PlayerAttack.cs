@@ -16,6 +16,13 @@ public class PlayerAttack : MonoBehaviour
     [ShowIf("showCooldownUI", true)]
     public Image attackUI;
 
+    AudioSource source;
+    public AudioClip attack1;
+    public AudioClip attack2;
+    public AudioClip attack3;
+
+
+
     [HideInInspector]
     public List<GameObject> AttackPausers = new List<GameObject>();
 
@@ -39,6 +46,11 @@ public class PlayerAttack : MonoBehaviour
     private readonly int topSwingHash = Animator.StringToHash("TopSwing");
     private readonly int timeSinceSwingHash = Animator.StringToHash("timeSinceSwing");
     #endregion
+
+    void Awake()
+    {
+        source = GetComponent<AudioSource>();
+    }
 
     void OnEnable()
     {
@@ -129,6 +141,8 @@ public class PlayerAttack : MonoBehaviour
                     PlayerManager.Instance.playerAnimator.SetBool(hasHammerHash, false);
                     if (swingCount == 0)
                     {//first swing (left)
+                        source.clip = attack1;
+                        source.Play();
                         PlayerManager.Instance.playerAnimator.ResetTrigger(rightSwingHash);
                         PlayerManager.Instance.playerAnimator.SetTrigger(leftSwingHash);
                         PlayerManager.Instance.playerAnimator.ResetTrigger(topSwingHash);
@@ -139,6 +153,8 @@ public class PlayerAttack : MonoBehaviour
                     {
                         if (swingCount == PlayerManager.Instance.equippedWeaponInfo.maxComboHits - 1)
                         {//last swing (top)
+                            source.clip = attack2;
+                            source.Play();
                             PlayerManager.Instance.playerAnimator.SetTrigger(topSwingHash);
                             ResetSwingProgress();
                             StartCoroutine(comboCooldown());
@@ -147,6 +163,8 @@ public class PlayerAttack : MonoBehaviour
                         }
                         else
                         {//middle (right)
+                            source.clip = attack3;
+                            source.Play();
                             swingCount++;
                             PlayerManager.Instance.playerAnimator.ResetTrigger(leftSwingHash);
                             PlayerManager.Instance.playerAnimator.SetTrigger(rightSwingHash);

@@ -15,6 +15,9 @@ public class Menu : MonoBehaviour
     public static bool isOpen = false;
     public static MenuStateEvent OnMenuStateChange;
 
+    public AudioSource openSound;
+    public AudioSource closeSound;
+
     [Header("Wwise")]
     public AK.Wwise.RTPC MenuRTPC;
     public AK.Wwise.Event MenuOpenSound;
@@ -24,8 +27,6 @@ public class Menu : MonoBehaviour
     public AnimatedObjectActiveHandler ControlsBox;
     public AnimatedObjectActiveHandler QuestBox;
     public bool GetMouseWithP = false;
-    public AudioSource OpenMenuSound;
-    public AudioSource CloseMenuSound;
 
     public MenuEvent OnMenuDown;
 
@@ -56,8 +57,8 @@ public class Menu : MonoBehaviour
             isOpen = menuOpen;
             if (menuOpen)
             {
-                OpenMenuSound.Play();
                 MenuOpenSound.Post(gameObject);
+                openSound.Play();
                 MenuRTPC.SetGlobalValue(100f);
                 GameManager.Instance.gameSpeedHandler.PauseGameSpeed(gameObject.GetInstanceID());
                 GameManager.Instance.BlurCam();
@@ -70,8 +71,8 @@ public class Menu : MonoBehaviour
             }
             else
             {
-                CloseMenuSound.Play();
                 MenuCloseSound.Post(gameObject);
+                closeSound.Play();
                 MenuRTPC.SetGlobalValue(0f);
                 GameManager.Instance.gameSpeedHandler.UnPauseGameSpeed(gameObject.GetInstanceID());
                 GameManager.Instance.UnBlurCam();

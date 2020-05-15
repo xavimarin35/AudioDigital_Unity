@@ -14,6 +14,11 @@ public class EvilHeadAI : Creature
     public GameObject SmokeFX;
     public GameObject deathFX;
     public GameObject keepOnDeath;
+    AudioSource source;
+    public AudioClip bite;
+    public AudioClip death;
+    public AudioClip charge;
+
 
     [Header("Wwise")]
     public AK.Wwise.RTPC MovementRTPC;
@@ -38,6 +43,8 @@ public class EvilHeadAI : Creature
 
     private void Awake()
     {
+        source = GetComponent<AudioSource>();
+
         if(anim == null)
         {
             anim = GetComponent<Animator>();
@@ -119,6 +126,8 @@ public class EvilHeadAI : Creature
         //print(Time.realtimeSinceStartup + ": ChargeTowardsPlayer");
         TelegraphSound.Stop(gameObject,0, AkCurveInterpolation.AkCurveInterpolation_Linear);
         ChargeSound.Post(gameObject);
+        source.clip = charge;
+        source.Play();
 
         Vector3 currentPosition = transform.position;
         Vector3 destination = targetLocation + ((targetLocation) - currentPosition).normalized * 2f;
@@ -136,6 +145,8 @@ public class EvilHeadAI : Creature
     public override void OnDeathAnimation()
     {
         base.OnDeathAnimation();
+        source.clip = death;
+        source.Play();
         isAlive = false;
 
         if (chargeRoutine != null)
@@ -179,9 +190,11 @@ public class EvilHeadAI : Creature
             }
             Destroy(keepOnDeath, 5f);
         }
-
+        
         PlayCreatureDeathSound();
         Destroy(gameObject);
+        source.clip = death;
+        source.Play();
     }
 
     /// <summary>
@@ -189,6 +202,8 @@ public class EvilHeadAI : Creature
     /// </summary>
     public void PlayBiteSound()
     {
+        source.clip = bite;
+        source.Play();
         BiteSound.Post(this.gameObject);
     }
 }

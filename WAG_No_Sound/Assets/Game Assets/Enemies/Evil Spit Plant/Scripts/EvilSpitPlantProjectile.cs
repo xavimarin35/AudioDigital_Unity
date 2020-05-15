@@ -23,6 +23,10 @@ public class EvilSpitPlantProjectile : MonoBehaviour
     public float duration = 3;
     public float damage = 40f;
 
+    AudioSource source;
+    public AudioClip impact;
+    public AudioClip hurtImpact;
+
     public bool ignoreCollisionWithWwizard = false;
 
     [HideInInspector]
@@ -37,6 +41,11 @@ public class EvilSpitPlantProjectile : MonoBehaviour
     private bool isExploding;
     private IEnumerator movementRoutine;
     #endregion
+
+    void Awake()
+    {
+        source = GetComponent<AudioSource>();
+    }
 
     void OnEnable()
     {
@@ -137,10 +146,14 @@ public class EvilSpitPlantProjectile : MonoBehaviour
 
             if (hitSomething)
             {
+                source.clip = hurtImpact;
+                source.Play();
                 ImpactSound.Post(go.gameObject);
             }
             else
             {
+                source.clip = impact;
+                source.Play();
                 NoImpactSound.Post(go.gameObject);
             }
 

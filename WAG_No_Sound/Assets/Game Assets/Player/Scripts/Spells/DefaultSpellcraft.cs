@@ -44,6 +44,9 @@ public class DefaultSpellcraft : MonoBehaviour
     public AK.Wwise.Event SpellChargeStop = new AK.Wwise.Event();
     public AK.Wwise.RTPC SpellChargeLevel = new AK.Wwise.RTPC();
 
+    public AudioSource charge;
+    public AudioSource destroy;
+
     #region private variables
     private Quaternion startRotation;
     private Vector3 targetPosition;
@@ -74,6 +77,7 @@ public class DefaultSpellcraft : MonoBehaviour
 
     private void OnDestroy()
     {
+        destroy.Play();
         DisableMagic();
     }
 
@@ -95,6 +99,7 @@ public class DefaultSpellcraft : MonoBehaviour
             }
 
             // SPELL SOUND
+            charge.Play();
             SpellChargeStart.Post(gameObject);
             startRotation = transform.rotation;
         }

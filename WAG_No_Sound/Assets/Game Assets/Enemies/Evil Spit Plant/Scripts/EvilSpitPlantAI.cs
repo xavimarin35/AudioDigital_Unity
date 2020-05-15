@@ -14,6 +14,14 @@ public class EvilSpitPlantAI : Creature
     public GameObject chargeParticles;
     public GameObject shootParticles;
     public GameObject spitBulletSpawnPoint;
+    AudioSource source;
+    public AudioClip charge;
+    public AudioClip death;
+    public AudioClip deathHeadfall;
+    public AudioClip hurt;
+    public AudioClip hurtImpact;
+    public AudioClip impactPlayer;
+    public AudioClip shoot;
 
     #region private variables
     private bool hasSpawned = false;
@@ -28,6 +36,12 @@ public class EvilSpitPlantAI : Creature
     public AK.Wwise.Event ChargeSound = new AK.Wwise.Event();
     public AK.Wwise.Event Death_Headfall = new AK.Wwise.Event();
     public AK.Wwise.Event asdasdasfasda;
+
+
+    void Awake()
+    {
+        source = GetComponent<AudioSource>();
+    }
 
     public override void OnSpotting()
     {
@@ -59,7 +73,8 @@ public class EvilSpitPlantAI : Creature
         if (targetOfNPC != null && !GameManager.Instance.AIPaused)
         {
             AttackSound.Post(this.gameObject);
-
+            source.clip = shoot;
+            source.Play();
             GameObject bullet = Instantiate(bulletPrefab, spitBulletSpawnPoint.transform.position, Quaternion.LookRotation(transform.forward)) as GameObject; //TODO: Pool spitbullets
             bullet.GetComponent<EvilSpitPlantProjectile>().parent = gameObject;
             bullet.GetComponent<EvilSpitPlantProjectile>().damage = this.AttackDamage;
@@ -72,6 +87,8 @@ public class EvilSpitPlantAI : Creature
     public void PlayChargeSound()
     {
         ChargeSound.Post(gameObject);
+        source.clip = charge;
+        source.Play();
     }
 
     /// <summary>
@@ -97,6 +114,8 @@ public class EvilSpitPlantAI : Creature
 
     public override void OnDamageReset()
     {
+        source.clip = hurt;
+        source.Play();
         base.OnDamageReset();
         lockRotation = false;
     }
@@ -120,7 +139,8 @@ public class EvilSpitPlantAI : Creature
     public override void OnDeathAnimation()
     {
         base.OnDeathAnimation();
-
+        source.clip = death;
+        source.Play();
         anim.SetBool(isAliveHash, false);
 
         float angle = Vector3.Angle(RotationObject.transform.forward, LastAttack.attackDir);
@@ -137,6 +157,8 @@ public class EvilSpitPlantAI : Creature
 
     public void OnDeathHeadFall()
     {
+        source.clip = deathHeadfall;
+        source.Play();
         Death_Headfall.Post(this.gameObject);
     }
 }
